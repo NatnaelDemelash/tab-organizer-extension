@@ -81,3 +81,9 @@ button:hover {
   border-radius: 6px;
   margin-left: 0.5rem;
 }
+
+#errMsg {
+  color: red;
+  font-size: 0.74rem;
+  font-style: italic;
+}
