@@ -39,4 +39,52 @@ saveCurrentTabs.addEventListener('click', async () => {
   // Save the uppdated array back to the localStorage
 
   localStorage.setItem('collections', JSON.stringify(collections));
+
+  renderCollections();
 });
+
+function getCollections() {
+  const stored = localStorage.getItem('collections');
+  return stored ? JSON.parse(stored) : [];
+}
+
+function renderCollections() {
+  const collectionsList = document.getElementById('collectionsList');
+  collectionsList.innerHTML = ''; // Clear preveious content
+
+  const collections = getCollections();
+
+  collections.forEach((collection, index) => {
+    // create container for each collections
+    const collectionDiv = document.createElement('div');
+    collectionDiv.classList.add('collection');
+
+    // collection name
+    const name = document.createElement('p');
+    name.textContent = collection.name;
+
+    // Open Tabs button
+    const openBtn = document.createElement('button');
+    openBtn.textContent = 'Open Tabs';
+
+    openBtn.addEventListener('click', () => {
+      // TODO:
+    });
+
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+
+    deleteBtn.addEventListener('click', () => {});
+
+    // Append name and buttons to collection container
+    collectionDiv.appendChild(name);
+    collectionDiv.appendChild(openBtn);
+    collectionDiv.appendChild(deleteBtn);
+
+    // Append collection container to the collection list
+    collectionsList.appendChild(collectionDiv);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderCollections);

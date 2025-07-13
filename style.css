@@ -7,7 +7,7 @@
 body {
   font-family: system-ui, sans-serif;
   background: #f8f9fa;
-  width: 300px;
+  width: 320px;
   height: 370px;
   padding: 1rem;
 }
@@ -73,13 +73,48 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   font-size: 0.75rem;
+  margin-top: 0.7rem;
+}
+
+.collection p {
+  flex: 1;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.64rem;
 }
 
 .collection button {
-  padding: 0.3rem 0.6rem;
-  font-size: 0.7rem;
-  border-radius: 6px;
+  padding: 0.24rem 0.5rem;
+  font-size: 0.6rem;
+  border-radius: 5px;
+  border: 1.5px solid;
+  cursor: pointer;
+  background: transparent;
+  transition: background-color 0.2s, color 0.2s;
+  min-width: 70px;
   margin-left: 0.5rem;
+}
+
+/* Style for Open button */
+.collection button:first-of-type {
+  border-color: #333;
+  color: #333;
+}
+
+.collection button:first-of-type:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Style for Delete button */
+.collection button:last-of-type {
+  border-color: #e63946;
+  color: #e63946;
+}
+
+.collection button:last-of-type:hover {
+  background-color: #e63946;
+  color: #fff;
 }
 
 #errMsg {
