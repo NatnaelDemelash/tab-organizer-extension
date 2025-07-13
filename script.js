@@ -14,11 +14,29 @@ saveCurrentTabs.addEventListener('click', async () => {
 
   // Async function to get active tab
   const getCurrentTab = async () => {
-    const queryOptions = { active: true, lastFocusedWindow: true };
-    const [tab] = await chrome.tabs.query(queryOptions);
-    return tab;
+    const queryOptions = { currentWindow: true };
+    const tabs = await chrome.tabs.query(queryOptions);
+    const tabUrls = tabs.map((tab) => tab.url);
+    return tabUrls;
   };
 
-  const currentTab = await getCurrentTab();
-  console.log(currentTab);
+  const tabUrls = await getCurrentTab();
+
+  // Read exisitng collections or start with empty array
+  const stored = localStorage.getItem('collections');
+  const collections = stored ? JSON.parse(stored) : [];
+
+  console.log(collections);
+  // Create new collection object
+  const newCollection = {
+    name: collectionName,
+    urls: tabUrls,
+  };
+
+  // Add the collection to the array
+  collections.push(newCollection);
+
+  // Save the uppdated array back to the localStorage
+
+  localStorage.setItem('collections', JSON.stringify(collections));
 });
