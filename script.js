@@ -3,8 +3,6 @@ const saveCurrentTabs = document.getElementById('saveTabsBtn');
 saveCurrentTabs.addEventListener('click', async () => {
   const collectionName = document.getElementById('collectionName').value.trim();
   const errorMessage = document.getElementById('errMsg');
-
-  // Clear previous error
   errorMessage.textContent = '';
 
   if (!collectionName) {
@@ -12,33 +10,30 @@ saveCurrentTabs.addEventListener('click', async () => {
     return;
   }
 
-  // Async function to get active tabs URLs in current window
-  const getCurrentTab = async () => {
-    const queryOptions = { currentWindow: true };
-    const tabs = await chrome.tabs.query(queryOptions);
-    const tabUrls = tabs.map((tab) => tab.url);
-    return tabUrls;
-  };
-
-  const tabUrls = await getCurrentTab();
-
-  // Read existing collections or start with empty array
+  // Load saved collections once
   const stored = localStorage.getItem('collections');
   const collections = stored ? JSON.parse(stored) : [];
 
-  // Create new collection object
-  const newCollection = {
-    name: collectionName,
-    urls: tabUrls,
-  };
+  // Check for duplicates (case-insensitive)
+  const duplicate = collections.find(
+    (collection) =>
+      collection.name.toLowerCase() === collectionName.toLowerCase()
+  );
+  if (duplicate) {
+    errorMessage.textContent = 'Collection name already exists';
+    return;
+  }
 
-  // Add the new collection
+  // Get tabs
+  const queryOptions = { currentWindow: true };
+  const tabs = await chrome.tabs.query(queryOptions);
+  const tabUrls = tabs.map((tab) => tab.url);
+
+  // Create and save collection
+  const newCollection = { name: collectionName, urls: tabUrls };
   collections.push(newCollection);
-
-  // Save updated collections back to localStorage
   localStorage.setItem('collections', JSON.stringify(collections));
 
-  // Re-render collections list
   renderCollections();
 });
 
